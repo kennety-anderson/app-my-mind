@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_mind/widgets/Inputs/FormInput.dart';
 import 'package:my_mind/widgets/Buttons/FormButton.dart';
+import 'package:my_mind/utils/validators/formValidators.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -62,16 +62,7 @@ class _SignInState extends State<SignIn> {
                           borderSide: BorderSide(color: Colors.white60),
                         ),
                       ),
-                      validator: (text) {
-                        if (text.isEmpty) return 'Digite seu email!';
-                        Pattern pattern =
-                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                        RegExp regex = new RegExp(pattern);
-                        if (!regex.hasMatch(text))
-                          return 'Enter Valid Email';
-                        else
-                          return null;
-                      },
+                      validator: emailValidator,
                       onChanged: _setEmail,
                       // onFieldSubmitted: (text) => this.widget.onFieldSubmitted(),
                     ),
@@ -107,23 +98,32 @@ class _SignInState extends State<SignIn> {
                             borderSide: BorderSide(color: Colors.white60),
                           ),
                         ),
-                        validator: (value) => value.isEmpty
-                            ? 'E necessario sua senha!'
-                            : value.length < 8
-                                ? 'A senha deve ter no minimo 8 caracteres!'
-                                : null,
+                        validator: passwordValidator,
                         onChanged: _setPassword
                         // onFieldSubmitted: (text) => this.widget.onFieldSubmitted(),
                         ),
                   ),
                   Container(
-                      width: 300,
-                      height: 48,
-                      margin: EdgeInsets.symmetric(vertical: 6),
-                      child: FormButton(
-                        text: 'Entrar',
-                        onPressed: () => _formKey.currentState.validate(),
-                      ))
+                    width: 300,
+                    height: 48,
+                    margin: EdgeInsets.symmetric(vertical: 6),
+                    child: FormButton(
+                      text: 'Entrar',
+                      onPressed: () => _formKey.currentState.validate(),
+                    ),
+                  ),
+                  FlatButton(
+                    textColor: Colors.white,
+                    splashColor: Colors.transparent,
+                    child: Text(
+                      'Criar conta!',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () => Navigator.pushNamed(context, 'SignUp'),
+                  )
                 ],
               ),
             )
