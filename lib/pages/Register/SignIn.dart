@@ -20,11 +20,14 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
+        // color: Color(0xFF005bEA),
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                colors: [const Color(0xFFb9046e), const Color(0xFF570388)])),
+          gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            colors: [const Color(0xFF003891), const Color(0xFF0063FF)],
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -34,9 +37,9 @@ class _SignInState extends State<SignIn> {
                 children: <Widget>[
                   Container(
                     width: 300,
-                    margin: EdgeInsets.symmetric(vertical: 6),
+                    margin: EdgeInsets.symmetric(vertical: 4),
                     child: TextFormField(
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                       cursorColor: Colors.white,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
@@ -64,15 +67,16 @@ class _SignInState extends State<SignIn> {
                       ),
                       validator: emailValidator,
                       onChanged: _setEmail,
+
                       // onFieldSubmitted: (text) => this.widget.onFieldSubmitted(),
                     ),
                   ),
                   Container(
                     alignment: Alignment.center,
                     width: 300,
-                    margin: EdgeInsets.symmetric(vertical: 6),
+                    margin: EdgeInsets.symmetric(vertical: 4),
                     child: TextFormField(
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: TextStyle(color: Colors.white, fontSize: 14),
                         obscureText: true,
                         cursorColor: Colors.white,
                         textInputAction: TextInputAction.send,
@@ -112,20 +116,19 @@ class _SignInState extends State<SignIn> {
                       onPressed: () => _formKey.currentState.validate(),
                     ),
                   ),
-                  FlatButton(
-                    textColor: Colors.white,
-                    splashColor: Colors.transparent,
-                    child: Text(
-                      'Criar conta!',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onPressed: () => Navigator.pushNamed(context, 'SignUp'),
-                  )
                 ],
               ),
+            ),
+            FlatButton(
+              textColor: Colors.white,
+              child: Text(
+                'Criar conta!',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () => Navigator.pushNamed(context, 'SignUp'),
             )
           ],
         ),

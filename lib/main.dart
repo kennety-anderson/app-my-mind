@@ -11,6 +11,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        // splashColor: Colors.transparent,
       ),
       initialRoute: 'SignIn',
       routes: routes(context),

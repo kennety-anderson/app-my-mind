@@ -9,7 +9,7 @@ class FormButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      color: Colors.blue,
+      color: Colors.lightBlue,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       onPressed: () => this.onPressed(),
       child: Text(
