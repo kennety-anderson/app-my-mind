@@ -5,8 +5,9 @@ String defaultValidator(String value) {
   return value.isEmpty == true ? 'Por favor preencha este campo' : null;
 }
 
-class FormInput extends StatefulWidget {
+class FormInput extends StatelessWidget {
   FormInput({
+    this.key,
     this.hintText,
     this.obscureText,
     this.validator,
@@ -19,6 +20,7 @@ class FormInput extends StatefulWidget {
     this.current,
   });
 
+  final key;
   final String hintText;
   final bool obscureText;
   final Function validator;
@@ -29,25 +31,19 @@ class FormInput extends StatefulWidget {
   final TextInputAction textInputAction;
   final Widget icon;
   final current;
-
-  @override
-  _FormInputState createState() => _FormInputState();
-}
-
-class _FormInputState extends State<FormInput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: TextStyle(color: Colors.white, fontSize: 16),
-      obscureText: widget.obscureText == true ? true : false,
+      obscureText: obscureText == true ? true : false,
       cursorColor: Colors.white,
-      keyboardType: widget.keyBoardType,
-      textInputAction: widget.textInputAction,
+      keyboardType: keyBoardType,
+      textInputAction: textInputAction,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(0),
-        hintText: widget.hintText,
+        hintText: hintText,
         hintStyle: TextStyle(color: Colors.white70),
-        prefixIcon: widget.icon,
+        prefixIcon: icon,
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.red),
         ),
@@ -63,13 +59,13 @@ class _FormInputState extends State<FormInput> {
       ),
       validator: (value) {
         print(value);
-        return this.widget.validator != null
-            ? this.widget.validator(value)
+        return this.validator != null
+            ? this.validator(value)
             : defaultValidator(value);
       },
-      onChanged: (text) => this.widget.onChange(text),
-      onSaved: (text) => this.widget.onSaved(text),
-      onFieldSubmitted: (text) => this.widget.onFieldSubmitted(),
+      onChanged: (text) => this.onChange(text),
+      onSaved: (text) => this.onSaved(text),
+      onFieldSubmitted: (text) => this.onFieldSubmitted(),
     );
   }
 }

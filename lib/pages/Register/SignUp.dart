@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_mind/customs/BoxDecoration/SimpleGradient.dart';
+import 'package:my_mind/customs/InputDecoration/InputOutlineIcon.dart';
 import 'package:my_mind/widgets/Buttons/FormButton.dart';
 import 'package:my_mind/utils/validators/formValidators.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
@@ -24,13 +26,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       body: Container(
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              colors: [const Color(0xFF003891), const Color(0xFF0063FF)],
-            ),
-          ),
+          decoration: simpleBoxDecorationGradient(),
           child: ScrollConfiguration(
             behavior: MyBehavior(),
             child: ListView(
@@ -51,32 +47,15 @@ class _SignUpState extends State<SignUp> {
                                     color: Colors.white, fontSize: 16),
                                 cursorColor: Colors.white,
                                 textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 5),
-                                  hintText: 'Nome',
-                                  hintStyle: TextStyle(color: Colors.white70),
-                                  prefixIcon: Icon(
+                                decoration: inputOutlineIcon(
+                                  'Nome',
+                                  Icon(
                                     Icons.person_outline,
-                                    color: Colors.white60,
                                     size: 30,
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
+                                    color: Colors.white60,
                                   ),
                                 ),
-                                validator: emailValidator,
+                                validator: nameValidator,
                                 // onChanged: _setEmail,
                                 // onFieldSubmitted: (text) => this.widget.onFieldSubmitted(),
                               ),
@@ -90,29 +69,12 @@ class _SignUpState extends State<SignUp> {
                                 cursorColor: Colors.white,
                                 keyboardType: TextInputType.emailAddress,
                                 textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 5),
-                                  hintText: 'Email',
-                                  hintStyle: TextStyle(color: Colors.white70),
-                                  prefixIcon: Icon(
+                                decoration: inputOutlineIcon(
+                                  'Email',
+                                  Icon(
                                     Icons.mail_outline,
-                                    color: Colors.white60,
                                     size: 30,
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
+                                    color: Colors.white60,
                                   ),
                                 ),
                                 validator: emailValidator,
@@ -129,29 +91,12 @@ class _SignUpState extends State<SignUp> {
                                 cursorColor: Colors.white,
                                 keyboardType: TextInputType.number,
                                 textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 5),
-                                  hintText: 'Cpf',
-                                  hintStyle: TextStyle(color: Colors.white70),
-                                  prefixIcon: Icon(
+                                decoration: inputOutlineIcon(
+                                  'CPF',
+                                  Icon(
                                     Icons.assignment_ind,
-                                    color: Colors.white60,
                                     size: 30,
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
+                                    color: Colors.white60,
                                   ),
                                 ),
                                 validator: (text) => !CPFValidator.isValid(text)
@@ -170,29 +115,12 @@ class _SignUpState extends State<SignUp> {
                                 cursorColor: Colors.white,
                                 keyboardType: TextInputType.emailAddress,
                                 textInputAction: TextInputAction.next,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 5),
-                                  hintText: 'Data de nascimento',
-                                  hintStyle: TextStyle(color: Colors.white70),
-                                  prefixIcon: Icon(
+                                decoration: inputOutlineIcon(
+                                  'Data de nascimento',
+                                  Icon(
                                     Icons.date_range,
-                                    color: Colors.white60,
                                     size: 30,
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
+                                    color: Colors.white60,
                                   ),
                                 ),
                                 validator: dateValidator,
@@ -209,29 +137,12 @@ class _SignUpState extends State<SignUp> {
                                 cursorColor: Colors.white,
                                 obscureText: true,
                                 textInputAction: TextInputAction.send,
-                                decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(horizontal: 5),
-                                  hintText: 'Senha',
-                                  hintStyle: TextStyle(color: Colors.white70),
-                                  prefixIcon: Icon(
+                                decoration: inputOutlineIcon(
+                                  'Senha',
+                                  Icon(
                                     Icons.lock_outline,
-                                    color: Colors.white60,
                                     size: 30,
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.white60),
+                                    color: Colors.white60,
                                   ),
                                 ),
                                 validator: passwordValidator,
@@ -258,7 +169,8 @@ class _SignUpState extends State<SignUp> {
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
-                      onPressed: () => Navigator.pushNamed(context, 'SignIn'),
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed('SignIn'),
                     ),
                   ],
                 )

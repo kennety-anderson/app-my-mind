@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:my_mind/pages/Main/Main.dart';
+import 'package:my_mind/pages/Register/SignIn.dart';
 import 'package:my_mind/routes/routes.dart';
 
-void main() => runApp(App());
+void main() async {
+  await DotEnv().load('.env');
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   @override
@@ -10,11 +16,20 @@ class App extends StatelessWidget {
       title: 'My Mind Health',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
         // splashColor: Colors.transparent,
       ),
-      initialRoute: 'SignIn',
       routes: routes(context),
+      home: FutureBuilder<String>(
+        future: initialRoute(),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.hasData) {
+            return Main();
+          } else {
+            return SignIn();
+          }
+        },
+      ),
     );
     // home: SignIn());
   }
