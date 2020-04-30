@@ -4,8 +4,8 @@ InputDecoration inputOutlineIcon(String hintText, Widget icon) {
   return InputDecoration(
     contentPadding: EdgeInsets.symmetric(horizontal: 5),
     hintText: hintText,
-    hintStyle: TextStyle(color: Colors.white70),
-    prefixIcon: icon,
+    hintStyle: TextStyle(color: Colors.grey),
+    // prefixIcon: icon,
     errorBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Colors.red),
     ),
