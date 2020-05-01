@@ -7,6 +7,7 @@ import 'package:my_mind/customs/BoxDecoration/SimpleGradient.dart';
 import 'package:my_mind/widgets/Buttons/FormButton.dart';
 import 'package:my_mind/utils/classes/HiddenBehavior.dart';
 import 'package:my_mind/utils/validators/formValidators.dart';
+import 'package:my_mind/utils/fildFocusChange.dart';
 import 'package:my_mind/utils/simpleSnackBar.dart';
 
 Future<dynamic> authentication(
@@ -22,7 +23,7 @@ Future<dynamic> authentication(
   );
 
   if (response.statusCode == 200) {
-    dynamic data = json.decode(response.body);
+    dynamic data = jsonDecode(response.body);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -42,6 +43,9 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   String _email;
   String _password;
+
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _setEmail(String text) => setState(() => _email = text);
@@ -140,7 +144,11 @@ class _SignInState extends State<SignIn> {
                                             border: InputBorder.none,
                                           ),
                                           validator: emailValidator,
+                                          focusNode: _emailFocus,
                                           onChanged: _setEmail,
+                                          onFieldSubmitted: (text) =>
+                                              fieldFocusChange(context,
+                                                  _emailFocus, _passwordFocus),
                                         ),
                                       ),
                                       Container(
@@ -160,7 +168,14 @@ class _SignInState extends State<SignIn> {
                                             border: InputBorder.none,
                                           ),
                                           validator: passwordValidator,
+                                          focusNode: _passwordFocus,
                                           onChanged: _setPassword,
+                                          onFieldSubmitted: (text) => _formKey
+                                                  .currentState
+                                                  .validate()
+                                              ? authentication(
+                                                  context, _email, _password)
+                                              : null,
                                         ),
                                       )
                                     ],

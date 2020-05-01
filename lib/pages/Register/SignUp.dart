@@ -1,9 +1,68 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:my_mind/customs/BoxDecoration/SimpleGradient.dart';
+import 'package:my_mind/widgets/Buttons/FormButton.dart';
 import 'package:my_mind/utils/classes/HiddenBehavior.dart';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 import 'package:my_mind/utils/validators/formValidators.dart';
-import 'package:my_mind/widgets/Buttons/FormButton.dart';
+import 'package:my_mind/utils/fildFocusChange.dart';
+import 'package:my_mind/utils/simpleSnackBar.dart';
+
+Future<dynamic> createCustomer(BuildContext context, String name, String email,
+    String cpf, String birthdate, String password) async {
+  snackBar(context, 'Aguarde por favor!');
+
+  final http.Response response = await http.post(
+    '${DotEnv().env['URL_CRUD_CUSTOMERS']}/customers',
+    body: jsonEncode(<String, String>{
+      'name': name,
+      'email': email,
+      'cpf': cpf,
+      'birthdate': birthdate,
+      'password': password,
+    }),
+  );
+
+  switch (response.statusCode) {
+    case 200:
+      {
+        showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Conta criada com sucesso!'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Ok'),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('SignIn');
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      break;
+    case 422:
+      {
+        snackBar(context, 'Email já vinculado a uma conta existente!');
+      }
+      break;
+    case 400:
+      {
+        snackBar(context, 'Erro, verifique os dados enviados!');
+      }
+      break;
+    default:
+      {
+        snackBar(context, 'Erro, por favor tente mais tarde!');
+      }
+  }
+}
 
 class SignUp extends StatefulWidget {
   @override
@@ -11,7 +70,24 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  String _name;
+  String _email;
+  String _cpf;
+  String _birthdate;
+  String _password;
+
+  final FocusNode _nameFocus = FocusNode();
+  final FocusNode _cpfFocus = FocusNode();
+  final FocusNode _birthdateFocus = FocusNode();
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void _setName(String text) => setState(() => _name = text);
+  void _setEmail(String text) => setState(() => _email = text);
+  void _setCpf(String text) => setState(() => _cpf = text);
+  void _setBirthdate(String text) => setState(() => _birthdate = text);
+  void _setPassword(String text) => setState(() => _password = text);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +181,11 @@ class _SignUpState extends State<SignUp> {
                                               border: InputBorder.none,
                                             ),
                                             validator: nameValidator,
-                                            // onChanged: _setEmail,
+                                            focusNode: _nameFocus,
+                                            onChanged: _setName,
+                                            onFieldSubmitted: (text) =>
+                                                fieldFocusChange(context,
+                                                    _nameFocus, _emailFocus),
                                           ),
                                         ),
                                         Container(
@@ -128,7 +208,11 @@ class _SignUpState extends State<SignUp> {
                                               border: InputBorder.none,
                                             ),
                                             validator: emailValidator,
-                                            // onChanged: _setEmail,
+                                            focusNode: _emailFocus,
+                                            onChanged: _setEmail,
+                                            onFieldSubmitted: (text) =>
+                                                fieldFocusChange(context,
+                                                    _emailFocus, _cpfFocus),
                                           ),
                                         ),
                                         Container(
@@ -153,7 +237,11 @@ class _SignUpState extends State<SignUp> {
                                                 !CPFValidator.isValid(text)
                                                     ? 'CPF invalido!'
                                                     : null,
-                                            // onChanged: _setEmail,
+                                            focusNode: _cpfFocus,
+                                            onChanged: _setCpf,
+                                            onFieldSubmitted: (text) =>
+                                                fieldFocusChange(context,
+                                                    _cpfFocus, _birthdateFocus),
                                           ),
                                         ),
                                         Container(
@@ -174,7 +262,13 @@ class _SignUpState extends State<SignUp> {
                                               border: InputBorder.none,
                                             ),
                                             validator: dateValidator,
-                                            // onChanged: _setEmail,
+                                            focusNode: _birthdateFocus,
+                                            onChanged: _setBirthdate,
+                                            onFieldSubmitted: (text) =>
+                                                fieldFocusChange(
+                                                    context,
+                                                    _birthdateFocus,
+                                                    _passwordFocus),
                                           ),
                                         ),
                                         Container(
@@ -196,7 +290,18 @@ class _SignUpState extends State<SignUp> {
                                               border: InputBorder.none,
                                             ),
                                             validator: passwordValidator,
-                                            // onChanged: _setEmail,
+                                            focusNode: _passwordFocus,
+                                            onChanged: _setPassword,
+                                            onFieldSubmitted: (text) =>
+                                                _formKey.currentState.validate()
+                                                    ? createCustomer(
+                                                        context,
+                                                        _name,
+                                                        _email,
+                                                        _cpf,
+                                                        _birthdate,
+                                                        _password)
+                                                    : null,
                                           ),
                                         )
                                       ],
@@ -210,7 +315,15 @@ class _SignUpState extends State<SignUp> {
                                     child: FormButton(
                                       text: 'Registrar!',
                                       onPressed: () =>
-                                          _formKey.currentState.validate(),
+                                          _formKey.currentState.validate()
+                                              ? createCustomer(
+                                                  context,
+                                                  _name,
+                                                  _email,
+                                                  _cpf,
+                                                  _birthdate,
+                                                  _password)
+                                              : null,
                                     ),
                                   ),
                                   SizedBox(height: 10),
