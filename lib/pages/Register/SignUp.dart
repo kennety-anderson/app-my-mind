@@ -27,40 +27,34 @@ Future<dynamic> createCustomer(BuildContext context, String name, String email,
 
   switch (response.statusCode) {
     case 200:
-      {
-        showDialog<void>(
-          context: context,
-          barrierDismissible: false, // user must tap button!
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Conta criada com sucesso!'),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('SignIn');
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Conta criada com sucesso!'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('SignIn');
+                },
+              ),
+            ],
+          );
+        },
+      );
       break;
     case 422:
-      {
-        snackBar(context, 'Email já vinculado a uma conta existente!');
-      }
+      snackBar(context, 'Email já vinculado a uma conta existente!',
+          color: Colors.red);
       break;
     case 400:
-      {
-        snackBar(context, 'Erro, verifique os dados enviados!');
-      }
+      snackBar(context, 'Erro, verifique os dados enviados!',
+          color: Colors.red);
       break;
     default:
-      {
-        snackBar(context, 'Erro, por favor tente mais tarde!');
-      }
+      snackBar(context, 'Erro, por favor tente mais tarde!', color: Colors.red);
   }
 }
 
