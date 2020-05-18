@@ -4,7 +4,7 @@ class Schedule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Text(
           'Schedule page',

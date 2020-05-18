@@ -107,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          'My mind!',
+                          'Cadastre-se!',
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         )
                       ],
@@ -129,8 +129,8 @@ class _SignUpState extends State<SignUp> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(65),
-                      topRight: Radius.circular(65),
+                      topLeft: Radius.circular(70),
+                      topRight: Radius.circular(70),
                     ),
                   ),
                   child: Padding(
@@ -167,6 +167,8 @@ class _SignUpState extends State<SignUp> {
                                             ),
                                           ),
                                           child: TextFormField(
+                                            textCapitalization:
+                                                TextCapitalization.words,
                                             cursorColor: Colors.lightBlue,
                                             textInputAction:
                                                 TextInputAction.next,

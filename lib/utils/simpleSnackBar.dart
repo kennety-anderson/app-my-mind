@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-dynamic snackBar(BuildContext context, String message, {Color color}) =>
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBar(
+        BuildContext context, String message,
+        {Color color}) =>
     Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text(

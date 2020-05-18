@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_mind/customs/BoxDecoration/SimpleGradient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:my_mind/pages/Main/Feed.dart';
 import 'package:my_mind/pages/Main/Schedule.dart';
-import 'package:my_mind/pages/Main/Chat.dart';
+import 'package:my_mind/pages/Main/Chat/ChatList.dart';
 
 enum PageEnum { profile, config, help, exit }
 
@@ -20,7 +21,7 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   int _currentindex = 1;
 
-  final List<Widget> _children = [Schedule(), Feed(), Chat()];
+  final List<Widget> _children = [Schedule(), Feed(), ChatList()];
 
   void setCurrentIndex(int index) => setState(() => _currentindex = index);
 
@@ -61,68 +62,82 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blueAccent,
-      // extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('My Mind'),
-        backgroundColor: Colors.white,
-        actions: <Widget>[
-          PopupMenuButton<PageEnum>(
-            captureInheritedThemes: true,
-            offset: Offset(0, 60),
-            tooltip: 'Configurações!',
-            icon: Icon(
-              Icons.more_vert,
-              size: 30,
-            ),
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<PageEnum>>[
-              PopupMenuItem<PageEnum>(
-                value: PageEnum.profile,
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.person),
-                  title: Text('Perfil!'),
-                ),
-              ),
-              PopupMenuItem<PageEnum>(
-                value: PageEnum.config,
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.settings),
-                  title: Text('Configurações!'),
-                ),
-              ),
-              PopupMenuItem<PageEnum>(
-                value: PageEnum.help,
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.help),
-                  title: Text('Ajuda!'),
-                ),
-              ),
-              PopupMenuItem<PageEnum>(
-                value: PageEnum.exit,
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.exit_to_app),
-                  title: Text('Sair!'),
-                ),
-              )
-            ],
-            onSelected: onSelect,
-          )
-        ],
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        index: _currentindex,
-        items: <Widget>[
-          Icon(Icons.search, size: 28),
-          Icon(Icons.home, size: 28),
-          Icon(Icons.chat, size: 28),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentindex,
+        elevation: 10.0,
+        iconSize: 30,
+        showUnselectedLabels: false,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              title: Text('buscar'),
+              backgroundColor: Colors.red),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Feed'),
+              backgroundColor: Colors.blue),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              title: Text('Conversas'),
+              backgroundColor: Colors.amber),
         ],
         onTap: setCurrentIndex,
       ),
-      body: _children[_currentindex],
+      drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text('kennty Anderson'),
+              accountEmail: Text('test1@gmail.com'),
+              currentAccountPicture: CircleAvatar(
+                child: FlutterLogo(size: 40),
+                backgroundColor: Colors.white,
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.exit_to_app,
+                size: 28,
+              ),
+              title: Text('Sair da conta!'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Builder(
+        builder: (context) => Container(
+          // height: 100,
+          decoration: simpleBoxDecorationGradient(),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(top: 45, bottom: 15),
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.list, size: 35, color: Colors.white70),
+                        onPressed: () => Scaffold.of(context).openDrawer(),
+                      )
+                    ],
+                  )),
+              Expanded(
+                child: _children[_currentindex],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
